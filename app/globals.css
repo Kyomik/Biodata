@@ -1,0 +1,71 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --main-color: 0 0 25;        /* #000019 */
+  --secondary-color: 11 11 32; /* #0b0b20 */
+  --three-color: 220 20 60;
+  --accent: 200 240 74;        /* #c8f04a */
+  --locked: 8 8 24; 
+  --accent-dim: 143 170 44;    /* #8faa2c */
+  --white: 255 255 255;   /* rgba(255,255,255,0.05) */
+  --gray-blue: 202 202 221;
+
+  --ease-snap: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@theme {
+  --color-main: rgb(var(--main-color));
+  --color-secondary: rgb(var(--secondary-color));
+  --color-three: rgb(var(--three-color));
+  --color-locked: rgb(var(--locked));
+  --color-accent: rgb(var(--accent));
+  --color-accent-dim: rgb(var(--accent-dim));
+  --color-white: rgb(var(--white));
+  --color-gray: rgb(var(--gray-blue));
+
+  --font-syne: "Syne", sans-serif;
+  --font-dm-sans: "DM Sans", sans-serif;
+  --font-dm-mono: "DM Mono", monospace;
+
+  --transition-timing-function-snap: var(--ease-snap);
+  --transition-duration-slow: 500ms; 
+  --transition-duration-fast: 150ms;
+
+  --color-success: rgba(0, 177, 15, 0.04)
+}
+
+@layer utilities {
+  .main-bg-color {
+    background-color: rgb(var(--main-color));
+  }
+  
+  .secondary-bg-color {
+    background: 
+      radial-gradient(ellipse 80% 50% at 20% 30%, rgba(200, 240, 74, 0.04) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 70%, rgba(100, 80, 255, 0.06) 0%, transparent 60%),
+      rgb(var(--secondary-color));
+    position: relative;
+  }
+  
+  .secondary-bg-color::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+}
+
+@layer base {
+  body {
+    background-color: rgb(var(--main-color));
+  }
+}

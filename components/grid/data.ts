@@ -1,0 +1,62 @@
+import { IdeaProps } from "./idea.types";
+
+export const ideaData: IdeaProps[] = [
+  {
+    
+    id: 1,
+    title: 'Platform Belajar Coding untuk Pelajar SMA',
+    category: 'EdTech',
+    summary: 'Aplikasi interaktif dengan kurikulum berbasis proyek nyata, dirancang khusus untuk pelajar SMA di Indonesia.',
+    locked: false,
+    status: 'onprogress',
+  },
+  {
+    id: 2,
+    title: 'Marketplace Jasa Freelance Lokal',
+    category: 'Marketplace',
+    summary: 'Menghubungkan freelancer lokal dengan UMKM yang butuh jasa digital tanpa potongan besar.',
+    teaser: 'Bayangkan Fiverr — tapi khusus Indonesia, tanpa komisi 20%, dan bisa bayar pakai transfer bank lokal.',
+    supportLink: 'https://saweria.co/username',
+    locked: true,
+    fundCollected: 3200000,
+    fundTarget: 8000000,
+  },
+  {
+    id: 3,
+    title: 'Sistem Manajemen Inventori untuk Warung',
+    category: 'SaaS',
+    summary: 'Solusi sederhana berbasis web untuk pemilik warung mencatat stok, penjualan, dan laporan harian.',
+    teaser: 'Warung naik kelas — pencatatan stok otomatis, laporan harian, tanpa perlu beli software mahal.',
+    supportLink: 'https://saweria.co/username',
+    locked: true,
+    fundCollected: 1500000,
+    fundTarget: 5000000,
+  },
+  {
+    id: 4,
+    title: 'Aplikasi Jadwal & Reminder Sholat',
+    category: 'Mobile',
+    summary: 'Pengingat waktu sholat dengan fitur qibla, jadwal imsakiyah, dan notifikasi personal.',
+    locked: false,
+    status: 'done',
+  },
+  {
+    id: 5,
+    title: 'Dashboard Analitik untuk UMKM',
+    category: 'SaaS',
+    summary: 'Visualisasi data penjualan, stok, dan tren pelanggan dalam satu dashboard sederhana.',
+    locked: false,
+    status: 'onprogress',
+  },
+  {
+    id: 6,
+    title: 'Aplikasi Split Bill untuk Teman Nongkrong',
+    category: 'Mobile',
+    summary: 'Hitung dan bagi tagihan secara adil dengan fitur scan struk dan transfer otomatis.',
+    teaser: 'Tidak ada lagi drama "siapa yang bayar lebih" — semua transparan dan otomatis.',
+    supportLink: 'https://saweria.co/username',
+    locked: true,
+    fundCollected: 800000,
+    fundTarget: 3000000,
+  },
+];
