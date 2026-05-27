@@ -85,33 +85,24 @@ export const useGlobeInteraction = ({
   };
 
   useEffect(() => {
-    // Listen di window bukan canvas
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
     const onMouseMove = (e: MouseEvent) => updateTooltip(e.clientX, e.clientY);
     const onMouseLeave = () => {
       hovered.current = -1;
       if (tooltipRef.current) tooltipRef.current.style.opacity = "0";
     };
 
-    window.addEventListener("mousemove", onMouseMove);
-    canvasRef.current?.addEventListener("mouseleave", onMouseLeave);
+    canvas.addEventListener("mousemove", onMouseMove);
+    canvas.addEventListener("mouseleave", onMouseLeave);
 
     return () => {
-      window.removeEventListener("mousemove", onMouseMove);
-      canvasRef.current?.removeEventListener("mouseleave", onMouseLeave);
+      canvas.removeEventListener("mousemove", onMouseMove);
+      canvas.removeEventListener("mouseleave", onMouseLeave);
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [skills]);
 
-  useEffect(() => {
-    let frameId: number;
-    const animate = () => {
-      rotY.current += velY.current;
-      velY.current = velY.current * 0.98 + autoSpinSpeedRef.current * 0.02;
-      frameId = requestAnimationFrame(animate);
-    };
-    frameId = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(frameId);
-  }, []);
-
-  return { rotX, rotY, dragging: { current: false } };
+  return { rotX, rotY, velY, dragging: { current: false } };
 };

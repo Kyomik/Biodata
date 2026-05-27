@@ -29,8 +29,10 @@ export default function GlobeSkills({
 
   const badgeHits = useRef<BadgeHit[]>([]);
   const hovered   = useRef(-1);
+  const isVisibleRef = useRef<boolean>(false);
+  const isLoopingRef = useRef<boolean>(false);
 
-  const { rotX, rotY } = useGlobeInteraction({
+  const { rotX, rotY, velY } = useGlobeInteraction({
     canvasRef,
     tooltipRef,
     badgeHits,
@@ -182,17 +184,76 @@ export default function GlobeSkills({
     }
 
     frontItems.forEach(({ item, opacity }) => drawBadge(item, opacity, false));
-  }, [canvasWidth, photoWidth, photoHeight, photoBottomOffset, orbitCenterYAdjust, showGrid, skills, fov, orbitRatio]);
+  }, [canvasWidth, photoWidth, photoHeight, photoBottomOffset, orbitCenterYAdjust, showGrid, skills, fov, orbitRatio, rotX, rotY]);
 
+  // DPR High-DPI (Retina) scaling
   useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = canvasWidth * dpr;
+    canvas.height = CANVAS_HEIGHT * dpr;
+    canvas.style.width = `${canvasWidth}px`;
+    canvas.style.height = `${CANVAS_HEIGHT}px`;
+    ctx.scale(dpr, dpr);
+
+    if (imgRef.current) {
+      draw();
+    }
+  }, [canvasWidth, draw]);
+
+  const startLoop = useCallback(() => {
+    if (isLoopingRef.current) return;
+    isLoopingRef.current = true;
+
     let frameId: number;
     const loop = () => {
+      if (!isVisibleRef.current) {
+        isLoopingRef.current = false;
+        return;
+      }
+
+      // Update rotation & physics in the main single loop
+      rotY.current += velY.current;
+      velY.current = velY.current * 0.98 + autoSpinSpeed * 0.02;
+
       draw();
       frameId = requestAnimationFrame(loop);
     };
     frameId = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(frameId);
-  }, [draw]);
+  }, [draw, autoSpinSpeed, rotY, velY]);
+
+  // Set up IntersectionObserver to instantly pause offscreen and resume onscreen
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const wasVisible = isVisibleRef.current;
+        isVisibleRef.current = entry.isIntersecting;
+
+        if (entry.isIntersecting && !wasVisible && !isLoopingRef.current) {
+          startLoop();
+        }
+      },
+      { threshold: 0 }
+    );
+
+    observer.observe(canvas);
+
+    // Initial check and trigger
+    if (isVisibleRef.current) {
+      startLoop();
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [startLoop]);
 
   return (
     <>

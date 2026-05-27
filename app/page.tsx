@@ -1,7 +1,7 @@
 'use client';
 
 import SectionSkills from '@/components/sections/SectionSkills';
-import SectionContribution from '@/components/sections/SectionContribution';
+// import SectionContribution from '@/components/sections/SectionContribution';
 import SectionWrap from '@/components/ui/SectionWrap';
 import SectionHero from '@/components/sections/SectionHero';
 import SectionExperience from '@/components/sections/SectionExperience';
@@ -33,7 +33,7 @@ export default function Home() {
       <SectionDetail />
       <SectionExperience />
       
-      <SectionContribution />
+      {/* <SectionContribution /> */}
       <SectionContact />
     </>
   );
